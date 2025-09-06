@@ -14,7 +14,7 @@ const app = express();
 // Middleware
 
 app.use(cors({
-  origin: 'http://localhost:4173', // Allow requests from Vite frontend
+  origin: ['http://localhost:4173','https://school-1-ubkg.onrender.com' ],// Allow requests from Vite frontend
   credentials: true, // If you plan to use cookies (not needed here)
 }));
 app.use(express.json());
