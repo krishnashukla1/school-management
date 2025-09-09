@@ -85,6 +85,7 @@ import { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { FaChevronDown } from 'react-icons/fa';
+import { toast } from "react-hot-toast"; 
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -134,12 +135,18 @@ const Navbar = () => {
 
         <div className="flex items-center space-x-4">
           {user ? (
+       
+
             <button
-              onClick={logout}
-              className="bg-yellow-400 text-indigo-800 px-4 py-2 rounded-md hover:bg-yellow-500 font-semibold transition-all duration-300 shadow-md"
-            >
-              Logout
-            </button>
+    onClick={() => {
+      const result = logout();
+      toast.success(result.message); // ✅ show success message
+    }}
+    className="bg-yellow-400 text-indigo-800 px-4 py-2 rounded-md hover:bg-yellow-500 font-semibold transition-all duration-300 shadow-md"
+  >
+    Logout
+  </button>
+
           ) : (
             <>
               <Link

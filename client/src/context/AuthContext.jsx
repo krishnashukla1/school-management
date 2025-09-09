@@ -229,27 +229,34 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // ✅ Login
-  const login = async (credentials) => {
-    const { data } = await api.post('/auth/login', credentials);
-    localStorage.setItem('token', data.token);
-    const decoded = jwtDecode(data.token);
-    setUser({ id: decoded.id, role: decoded.role });
-    return { message: data.message || "Login successful!", user: data.user };
-  };
 
-  // ✅ Signup
-  const signup = async (credentials) => {
-    const { data } = await api.post('/auth/register', credentials);
-    // no token set here
-    return { message: data.message || "Registration successful! Please login.", user: data.user };
+const login = async (credentials) => {
+  const { data } = await api.post('/auth/login', credentials);
+  localStorage.setItem('token', data.token);
+  const decoded = jwtDecode(data.token);
+  setUser({ id: decoded.id, role: decoded.role });
+  return { 
+    message: data.message || "✅ You have successfully logged in!", 
+    user: data.user 
   };
+};
 
-  // ✅ Logout
-  const logout = () => {
-    localStorage.removeItem('token');
-    setUser(null);
-    return { message: "You have been logged out successfully." };
+// ✅ Signup
+const signup = async (credentials) => {
+  const { data } = await api.post('/auth/register', credentials);
+  return { 
+    message: data.message || "✅ You have successfully signed up! Please login.", 
+    user: data.user 
   };
+};
+
+// ✅ Logout
+const logout = () => {
+  localStorage.removeItem('token');
+  setUser(null);
+  return { message: "✅ You have successfully logged out!" };
+};
+
 
   return (
     <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
