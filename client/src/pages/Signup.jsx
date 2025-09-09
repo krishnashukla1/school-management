@@ -1,3 +1,4 @@
+
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
@@ -9,14 +10,22 @@ const Signup = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { signup } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const onSubmit = async (data) => {
     try {
       await signup(data);
       setError(null);
-      navigate('/'); // redirect to dashboard after signup
+      setSuccess('🎉 You have successfully registered! Redirecting to login...');
+      
+      // Redirect after 2 seconds
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
     } catch (err) {
+      setSuccess(null);
       setError(err.response?.data?.message || 'An error occurred');
       console.error(err);
     }
@@ -27,9 +36,17 @@ const Signup = () => {
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Create Account</h2>
 
+        {/* Error Message */}
         {error && (
-          <div className="text-red-500 text-center py-2 bg-red-50 rounded-md mb-4 font-medium">
+          <div className="text-red-600 text-center py-2 bg-red-50 border border-red-200 rounded-md mb-4 font-medium">
             {error}
+          </div>
+        )}
+
+        {/* Success Message */}
+        {success && (
+          <div className="text-green-600 text-center py-2 bg-green-50 border border-green-200 rounded-md mb-4 font-medium">
+            {success}
           </div>
         )}
 
@@ -88,7 +105,6 @@ const Signup = () => {
             <option value="">Select Role</option>
             <option value="admin">Admin</option>
             <option value="accountant">Accountant</option>
-            <option value="student">Student</option>
           </select>
           {errors.role && <span className="text-red-500 text-sm">Role is required</span>}
 

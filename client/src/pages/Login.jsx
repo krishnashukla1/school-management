@@ -1,25 +1,28 @@
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import FormInput from '../components/FormInput';
 import { FiUser, FiLock } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-
-  
   const onSubmit = async (data) => {
     try {
       await login(data);
       setError(null);
-      navigate('/');
+      setSuccess("✅ Login successful! Redirecting...");
+      // wait 1.5 seconds, then go to dashboard
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
     } catch (err) {
+      setSuccess(null);
       setError(err.response?.data?.message || 'An error occurred');
       console.error(err);
     }
@@ -30,9 +33,17 @@ const Login = () => {
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Welcome Back</h2>
 
+        {/* ✅ Error message */}
         {error && (
-          <div className="text-red-500 text-center mb-4 font-medium">
+          <div className="text-red-500 text-center py-2 bg-red-50 rounded-md mb-4 font-medium">
             {error}
+          </div>
+        )}
+
+        {/* ✅ Success message */}
+        {success && (
+          <div className="text-green-600 text-center py-2 bg-green-50 rounded-md mb-4 font-medium">
+            {success}
           </div>
         )}
 
@@ -75,23 +86,12 @@ const Login = () => {
           </button>
         </form>
 
-        {/* <p className="text-center text-gray-500 mt-6">
-          Don't have an account?{' '}
-          <span className="text-indigo-600 font-medium hover:underline cursor-pointer">
-            Sign up
-          </span>
-        </p> */}
-
-
-
-
         <p className="text-center text-gray-500 mt-6">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link to="/signup" className="text-indigo-600 font-medium hover:underline">
             Sign up
           </Link>
         </p>
-
       </div>
     </div>
   );

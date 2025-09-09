@@ -1,38 +1,3 @@
-// const Fee = require('../models/Fee');
-// const Batch = require('../models/Batch');
-// const Log = require('../models/TransactionLog');
-
-
-// const getFeeAnalytics = async (req, res) => {
-//   const fees = await Fee.aggregate([
-//     { $group: { _id: { $month: '$paidDate' }, total: { $sum: '$amount' } } }
-//   ]);
-//   res.json(fees);
-// };
-
-// const getFraudCheck = async (req, res) => {
-//   const logs = await Log.find({ action: { $regex: 'fee' } }).sort({ createdAt: -1 });
-//   res.json(logs);
-// };
-
-// const getBatchSummary = async (req, res) => {
-//   const batches = await Batch.find().populate('students');
-//   const summary = batches.map(batch => ({
-//     name: batch.name,
-//     studentCount: batch.students.length,
-//     totalFees: 0  // Add aggregation for fees later
-//   }));
-//   res.json(summary);
-// };
-
-
-// module.exports = { getFeeAnalytics, getFraudCheck, getBatchSummary };
-
-
-
-
-
-
 
 const Fee = require('../models/Fee');
 const Batch = require('../models/Batch');

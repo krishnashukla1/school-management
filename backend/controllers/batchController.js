@@ -2,7 +2,6 @@ const { validationResult } = require('express-validator');
 const Batch = require('../models/Batch');
 const Log = require('../models/TransactionLog');
 
-
 const createBatch = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });

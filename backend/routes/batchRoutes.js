@@ -1,6 +1,6 @@
 const express = require('express');
 const { body } = require('express-validator');
-const { createBatch, getBatches, getBatch, updateBatch, deleteBatch } = require('../controllers/batchController');
+const { createBatch, getBatches, getBatch, updateBatch, deleteBatch, } = require('../controllers/batchController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 
 const router = express.Router();

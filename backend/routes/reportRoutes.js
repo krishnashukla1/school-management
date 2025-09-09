@@ -20,7 +20,7 @@ const {
   getBatchSummary 
 } = require('../controllers/reportController');
 const { protect, authorize } = require('../middleware/authMiddleware');
-
+const { getAllFeesForExcel } = require('../controllers/feeController');
 const router = express.Router();
 
 // Overall summary
@@ -34,5 +34,8 @@ router.get('/fraud-check', protect, authorize('admin'), getFraudCheck);
 
 // Batch summary
 router.get('/batches', protect, authorize('admin', 'accountant'), getBatchSummary);
+
+
+router.get('/fees/excel', protect, getAllFeesForExcel);
 
 module.exports = router;

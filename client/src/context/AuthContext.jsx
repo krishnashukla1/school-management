@@ -82,6 +82,125 @@
 
 
 
+// import { createContext, useState, useEffect } from 'react';
+// import jwtDecode from 'jwt-decode';
+// import api from '../services/api';
+
+// const AuthContext = createContext();
+
+// export const AuthProvider = ({ children }) => {
+//   const [user, setUser] = useState(null);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const token = localStorage.getItem('token');
+//     if (token) {
+//       try {
+//         const decoded = jwtDecode(token);
+//         if (decoded.id && decoded.role) {
+//           setUser({ id: decoded.id, role: decoded.role });
+//         } else {
+//           localStorage.removeItem('token');
+//         }
+//       } catch (err) {
+//         localStorage.removeItem('token');
+//       }
+//     }
+//     setLoading(false);
+//   }, []);
+
+//   const login = async (credentials) => {
+//     const { data } = await api.post('/auth/login', credentials);
+//     localStorage.setItem('token', data.token);
+//     const decoded = jwtDecode(data.token);
+//     setUser({ id: decoded.id, role: decoded.role });
+//     return data;
+//   };
+
+//   const signup = async (credentials) => {
+//     const { data } = await api.post('/auth/register', credentials);
+//     localStorage.setItem('token', data.token);
+//     const decoded = jwtDecode(data.token);
+//     setUser({ id: decoded.id, role: decoded.role });
+//     return data;
+//   };
+
+//   const logout = () => {
+//     localStorage.removeItem('token');
+//     setUser(null);
+//   };
+
+//   return (
+//     <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// };
+
+// export default AuthContext;
+//======================
+
+// import { createContext, useState, useEffect } from 'react';
+// import jwtDecode from 'jwt-decode';
+// import api from '../services/api';
+
+// const AuthContext = createContext();
+
+// export const AuthProvider = ({ children }) => {
+//   const [user, setUser] = useState(null);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const token = localStorage.getItem('token');
+//     if (token) {
+//       try {
+//         const decoded = jwtDecode(token);
+//         if (decoded.id && decoded.role) {
+//           setUser({ id: decoded.id, role: decoded.role });
+//         } else {
+//           localStorage.removeItem('token');
+//         }
+//       } catch (err) {
+//         localStorage.removeItem('token');
+//       }
+//     }
+//     setLoading(false);
+//   }, []);
+
+//   // ✅ Login → save token and set user
+//   const login = async (credentials) => {
+//     const { data } = await api.post('/auth/login', credentials);
+//     localStorage.setItem('token', data.token);
+//     const decoded = jwtDecode(data.token);
+//     setUser({ id: decoded.id, role: decoded.role });
+//     return data;
+//   };
+
+//   // ✅ Signup → only register user, no token
+//   const signup = async (credentials) => {
+//     const { data } = await api.post('/auth/register', credentials);
+//     // Do not set token or user here
+//     return data; // contains message + user info
+//   };
+
+//   // ✅ Logout → clear token
+//   const logout = () => {
+//     localStorage.removeItem('token');
+//     setUser(null);
+//   };
+
+//   return (
+//     <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// };
+
+// export default AuthContext;
+
+
+//----------------------
+
 import { createContext, useState, useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
 import api from '../services/api';
@@ -109,25 +228,27 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  // ✅ Login
   const login = async (credentials) => {
     const { data } = await api.post('/auth/login', credentials);
     localStorage.setItem('token', data.token);
     const decoded = jwtDecode(data.token);
     setUser({ id: decoded.id, role: decoded.role });
-    return data;
+    return { message: data.message || "Login successful!", user: data.user };
   };
 
+  // ✅ Signup
   const signup = async (credentials) => {
     const { data } = await api.post('/auth/register', credentials);
-    localStorage.setItem('token', data.token);
-    const decoded = jwtDecode(data.token);
-    setUser({ id: decoded.id, role: decoded.role });
-    return data;
+    // no token set here
+    return { message: data.message || "Registration successful! Please login.", user: data.user };
   };
 
+  // ✅ Logout
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
+    return { message: "You have been logged out successfully." };
   };
 
   return (

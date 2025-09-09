@@ -98,6 +98,8 @@ const Navbar = () => {
     { name: 'Documents', path: '/documents', roles: ['admin', 'accountant'] },
     { name: 'Reports', path: '/reports', roles: ['admin', 'accountant'] },
     { name: 'Batches', path: '/batches', roles: ['admin'] },
+    { name: 'Finances', path: '/finance', roles: ['admin'] },
+
   ];
 
   return (
