@@ -19,7 +19,7 @@ const app = express();
 // }));
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://fbt-front-zsty.onrender.com'],
+  origin: ['http://localhost:5173', 'https://school-front-3w42.onrender.com'],
   methods: ['GET','POST','PUT','DELETE'],
   credentials: true
 }));
